@@ -1,12 +1,5 @@
-
-#include <Audio.h>
-#include <Wire.h>
-#include <SPI.h>
-#include <SerialFlash.h>
-
-#include <Adafruit_GFX.h>
-#include <gfxfont.h>
-#include <Adafruit_SSD1331.h>
+#ifndef GLCIMG_H
+#define GLCIMG_H
 
 //size: 29*25
 const uint16_t glcSleep[] PROGMEM ={
@@ -37,65 +30,4 @@ const uint16_t glcSleep[] PROGMEM ={
 ,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a,0xf8,0x1a
 };
 
-#define BLACK 0x0000
-#define GLC_BLUE 0x16D3
-#define GLC_CYAN 0x25FC
-#define WHITE 0xFFFF
-
-#define sclk 13
-#define mosi 11
-#define cs   10
-#define rst  9
-#define dc   8
-
-// GUItool: begin automatically generated code
-AudioInputAnalog         adc1;           //xy=102,276
-AudioAnalyzeRMS          rms1;           //xy=405,20
-AudioAnalyzeFFT256       audioFFT;       //xy=410,299
-AudioAnalyzePeak         peak1;          //xy=411,98
-AudioAnalyzeNoteFrequency notefreq1;      //xy=415,188
-AudioConnection          patchCord1(adc1, notefreq1);
-AudioConnection          patchCord2(adc1, audioFFT);
-AudioConnection          patchCord3(adc1, peak1);
-AudioConnection          patchCord4(adc1, rms1);
-// GUItool: end automatically generated code
-
-double lastPeakValue = 0;
-double lastRMSValue = 0;
-
-Adafruit_SSD1331 display = Adafruit_SSD1331(cs, dc, rst);
-
-void setup() {
-  
-}
-
-void loop() {
-  /* draw main window graphics */
-  display.drawRect(0, 0, 95, 10, GLC_BLUE);
-  display.fillRect(1, 1, 94, 9, WHITE);
-  display.drawRect(0, 10, 95, 63, GLC_BLUE);
-  display.fillRect(1, 11, 94, 62, BLACK);
-  /* draw FFT */
-
-  for (int i = 0; i < 127; i++) {
-    uint8_t length = map(audioFFT.read(i), 0, 127, 0, 50);
-    display.drawFastVLine(i, 61, length, GLC_CYAN);
-    display.drawFastVLine(i+1, 61, length, GLC_CYAN);
-  }
-  /* overlay SPACE and Glaceon */
-  uint8_t height = 25;
-  uint8_t width = 29;
-  int row;
-  int col;
-  int bufferIndex = 0;
-  for (row = 0; row < height; row++) {
-    for (col = 0; col < width; col++) {
-      uint16_t pixel = pgm_read_word(glcSleep + bufferIndex);
-      if (pixel != 0xf8 && pixel != 0x1a) {
-        display.drawPixel(64+col, 36+row, pixel);
-      }
-      bufferIndex++;
-    }
-  }
-}
-
+#endif
