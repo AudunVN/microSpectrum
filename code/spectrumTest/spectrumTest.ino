@@ -85,8 +85,8 @@ void loop(void) {
     /*display.fillRect(1, 1, 94, 9, WHITE);*/
     display.drawRect(0, 10, 96, 53, GLC_BLUE);
     /*display.fillRect(1, 11, 94, 62, BLACK);*/
-    for (int i = 2; i < 93; i = i+2) {
-      int randLength = random(36);
+    for (int i = 2; i < 93; i = i+3) {
+      int randLength = random(50);
       display.drawFastVLine(i, 61-randLength, randLength, GLC_CYAN);
       display.drawFastVLine(i+1, 61-randLength, randLength, GLC_CYAN);
     }
@@ -106,12 +106,10 @@ void loop(void) {
         uint16_t pixel = pgm_read_word(glcSleep + bufferIndex);
         if (pixel != 6904) {
           if (pixel == 0) {
-            display.drawPixel(64+col, 35+row, 0);
+            display.drawPixel(62+col, 34+row, 0);
           } else {
-            display.drawPixel(64+col, 35+row, 1);
+            display.drawPixel(62+col, 34+row, 1);
           }
-          /*display.print(pixel);
-          display.print(" ");*/
         }
         bufferIndex += sizeof(uint16_t);
       }
