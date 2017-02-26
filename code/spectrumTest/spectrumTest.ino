@@ -76,7 +76,6 @@ void setup() {
 
 bool ledState = true;
 
-
 void loop(void) {
     randNumber = random(128);
     display.clearDisplay();
